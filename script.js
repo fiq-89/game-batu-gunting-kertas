@@ -63,13 +63,22 @@ function reset() {
 
 // Function untuk play sound
 function playSound(soundId) {
-    try {
-        const sound = document.getElementById(soundId);
-        if (sound && sound.src) {
-            sound.currentTime = 0;  // Reset ke awal
-            sound.play().catch(error => console.log('Sound tidak bisa diplay:', error));
-        }
-    } catch (error) {
-        console.log('Error playing sound:', error);
+    const sound = document.getElementById(soundId);
+    sound.currentTime = 0;  // Reset ke awal
+    sound.volume = 1;  // Set volume ke max
+    
+    // Pastikan play berfungsi
+    const playPromise = sound.play();
+    
+    if (playPromise !== undefined) {
+        playPromise
+            .then(() => {
+                console.log('Sound berhasil diplay: ' + soundId);
+            })
+            .catch(error => {
+                console.log('Sound error:', error);
+                // Coba play ulang
+                setTimeout(() => sound.play(), 100);
+            });
     }
 }
