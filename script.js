@@ -23,10 +23,15 @@ function main(playerChoice) {
     const computerChoice = getComputerChoice();
     const result = determineWinner(playerChoice, computerChoice);
     
+    // Play sound based on result
     if (result.includes('Menang')) {
         scorePlayer++;
+        playSound('winSound');
     } else if (result.includes('Kalah')) {
         scoreComputer++;
+        playSound('loseSound');
+    } else if (result.includes('Seri')) {
+        playSound('tieSound');
     }
     
     const resultText = `
@@ -54,4 +59,11 @@ function reset() {
     scoreComputer = 0;
     document.getElementById('result-text').innerHTML = '';
     document.getElementById('score-text').textContent = '';
+}
+
+// Function untuk play sound
+function playSound(soundId) {
+    const sound = document.getElementById(soundId);
+    sound.currentTime = 0;  // Reset ke awal
+    sound.play().catch(error => console.log('Sound tidak bisa diplay:', error));
 }
