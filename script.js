@@ -63,7 +63,13 @@ function reset() {
 
 // Function untuk play sound
 function playSound(soundId) {
-    const sound = document.getElementById(soundId);
-    sound.currentTime = 0;  // Reset ke awal
-    sound.play().catch(error => console.log('Sound tidak bisa diplay:', error));
+    try {
+        const sound = document.getElementById(soundId);
+        if (sound && sound.src) {
+            sound.currentTime = 0;  // Reset ke awal
+            sound.play().catch(error => console.log('Sound tidak bisa diplay:', error));
+        }
+    } catch (error) {
+        console.log('Error playing sound:', error);
+    }
 }
